@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Sign In
+    <!--When the action is set to an empty string the form is submitted to the URL that is currently in the
+    address bar, which is the URL that rendered the form on the page.-->
+    <!--POST request makes for a better user experience because requests of this type can submit the form
+    data in the body of the request, while GET requests add the form fields to the URL, cluttering the browser
+    address bar.-->
+    <!--Using novalidate is entirely optional, but for this first form it is important that you set it because
+    this will allow you to test server-side validation later in this chapter.-->
+<form action="" method="post" novalidate>
+    <!--The form.hidden_tag() template argument generates a hidden field that includes a token that is used to protect the form against CSRF attacks.-->
+    <!--SECRET_KEY variable defined in the Flask configuration.-->
+    {{ form.hidden_tag() }}
+    <!--All I needed to do was to include { { form.<field_name>.label } } where I wanted the field label, and { { form.<field_name>() } } where I wanted the field.-->
+    <p>
+        {{ form.username.label }}<br>
+        {{ form.username(size=32) }}<br>
+        {% for error in form.username.errors %}
+        <!--As a general rule, any fields that have validators attached will have error messages added under
+        .<field_name>.errors. This is going to be a list, because fields can have multiple validators attached
+        and more than one may be providing error messages to display to the user.-->
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}<br>
+        {{ form.password(size=32) }}<br>
+        {% for error in form.password.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

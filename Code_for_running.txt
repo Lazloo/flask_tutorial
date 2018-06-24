@@ -1,0 +1,3 @@
+cd C:\Users\Lazloo\Programmieren\flask_tutorial
+set FLASK_APP=microblog.py
+flask run
